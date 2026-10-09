@@ -175,10 +175,11 @@ const CALC_DATA = [
 ];
 
 // Discount tiers — matches the scenario brief:
-// 1 booking = no discount, 2 bookings = 5% off, 3+ bookings = 10% off.
+// 1 booking = no discount, 2 = 5% off, 3 = 10% off, more than 3 (4+) = 15% off.
 const DISCOUNT_TIERS = [
   { minBookings: 2, rate: 0.05 },
   { minBookings: 3, rate: 0.10 },
+  { minBookings: 4, rate: 0.15 },
 ];
 
 function initCalculator() {
