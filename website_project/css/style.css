@@ -1,8 +1,22 @@
 /* =========================================================
-   Adventure Escape SA — Global Stylesheet
-   Rough build: base structure + placeholder styling only.
-   Swap the CSS variables below once the real brand assets
-   (photos, exact "Bushveld Blaze" hex codes) are ready.
+   CHANGELOG — style.css (images only)
+   
+   ---------------------------------------------------------
+   1. Photos inside .placeholder boxes now fill the box and are
+      cropped neatly (object-fit: cover) instead of showing at
+      their original size and spilling over the card text.
+   2. Once a box contains a photo, its grey background, dashed
+      border and "IMAGE" label are hidden.
+   3. The header logo is shown whole inside its circle
+      (object-fit: contain) instead of overflowing it.
+   4. Images can no longer be wider than their container
+      (max-width: 100%).
+   5. Wide image boxes no longer push the page past the screen
+      edge on phones (Individual, About and Contact pages).
+   ========================================================= */
+
+/* =========================================================
+   Adventure Escape SA — Global Stylesheet placeholder 
    ========================================================= */
 
 :root {
@@ -45,10 +59,19 @@ body {
   line-height: 1.5;
 }
 
-img {
-  max-width: 100%;
-  display: block;
+.logo{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+.logo img{
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
 
 a {
   color: inherit;
@@ -121,6 +144,42 @@ section {
   width: 64px;
 }
 
+/* ---------- Images (see changelog at top) ---------- */
+img {
+  max-width: 100%;
+}
+
+.placeholder {
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder:has(> img) {
+  background: none;
+  border: none;
+  color: transparent;
+}
+
+.placeholder--circle > img {
+  object-fit: contain;
+}
+
+/* On phones, image boxes that have a set height (min-height in the HTML)
+   drop the 16:9 shape so they fit the screen width instead of overflowing. */
+@media (max-width: 860px) {
+  .placeholder--wide[style*="min-height"] {
+    aspect-ratio: auto;
+  }
+}
+
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-block;
@@ -181,22 +240,6 @@ section {
   align-items: center;
   justify-content: space-between;
   padding: 14px 0;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-green-dark);
-}
-
-.nav-logo .placeholder {
-  width: 40px;
-  height: 40px;
-  min-height: 0;
-  font-size: 0.55rem;
 }
 
 .nav-links {
@@ -578,6 +621,21 @@ textarea:focus {
   border: 1px solid var(--color-gray-100);
   border-radius: var(--radius);
 }
+ .family-explorer img{
+  width: 10%;
+  height: 10px;
+  object-fit: cover;
+  border-radius: 3px;
+  border:3px solid#FF7F6B
+  
+
+}
+.h4 card-title{
+  color: #FF7F6B;
+}
+.h5{
+  border-color: #D6810B ;
+}
 
 .pillar-card .placeholder--circle {
   margin: 0 auto 12px auto;
@@ -637,4 +695,14 @@ textarea:focus {
     flex-direction: column;
     align-items: flex-start;
   }
+
+img.placeholder {
+ background: none;
+ border: none;
+ display: block;
+ object-fit: cover;
+ width: 100%;
+ height: 100%;
+}
+
 }
