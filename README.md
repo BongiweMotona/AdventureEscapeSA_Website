@@ -1,218 +1,133 @@
-# Adventure Escape SA – Website
+# Adventure Escape SA — Website
 
-Student project: website component
-Module: [Work Intergrated Learning 1 and XHAW] · Institution: [Rosebank College] · Lecturer: []
-Group members: [Bongiwe Motona – ST10520889], [Thandazile Xaba – ST], [Kabelo – ST], [Thando - ST]
-Submission date: [9 October 2026]
+## 1. Project Overview
 
----
+Adventure Escape SA is an outdoor adventure and eco-tourism company based in the Western Cape, South Africa. The website provides visitors with information about the company, its adventure packages and individual activities, group booking fees, and contact details.
 
-## 1. Project overview
+The website was developed using HTML, CSS, and JavaScript without external frameworks or a separate build process. Visual Studio Code was used for development, and the website was previewed locally using the Live Server extension (Dey, n.d.).
 
-Adventure Escape SA is a small-to-medium enterprise (SME) founded by Liam Daniels in 2024. It offers professionally guided outdoor experiences throughout the Western Cape. According to the client brief, families, tourists, schools and corporate groups struggle to find one place where they can compare and book outdoor activities.
+## 2. Client Requirements
 
-This website meets that need. It lets customers:
+The website is designed to meet the following requirements:
 
-- browse the company's Adventure Packages and Individual Activities,
-- view the details of each experience (description, what is included and price),
-- build a quotation for one or more bookings, with the group discount and VAT calculated automatically, and
-- send an enquiry to the company through a contact form.
+* Introduce Adventure Escape SA and its services.
+* Present the company's background and core values.
+* Display available adventure packages and individual activities.
+* Provide detailed information about selected packages and activities.
+* Allow visitors to calculate estimated group booking fees and applicable discounts.
+* Provide a contact form for visitor enquiries.
+* Maintain consistent navigation, styling, and functionality across the website.
 
-The site was developed from the Phase 3 wireframes and has the six required pages:
+## 3. Website Pages and Functionality
 
-| # | Page | File | Purpose |
-|---|---|---|---|
-| 1 | Home | `index.html` | Branding, hero section and popular Adventure Packages |
-| 2 | About Us | `about.html` | The company's story and what it stands for |
-| 3 | Overview | `overview.html` | Tabbed list of all Adventure Packages and Individual Activities |
-| 4 | Individual page | `individual.html` | Details of one experience, loaded by URL (e.g. `individual.html?item=ziplining`), with "You May Also Like" suggestions |
-| 5 | Calculate Fee | `calculate.html` | The customer's bookings, quantity controls, discount progress and quotation total |
-| 6 | Contact Us | `contact.html` | Validated enquiry form and contact details |
+The website consists of six pages.
 
----
+### 3.1 Home
 
-## 2. Client brief requirements and how the site meets them
+The Home page introduces Adventure Escape SA through a hero banner and showcases featured adventure packages. It provides visitors with an entry point to explore the company's offerings.
 
-### 2.1 Catalogue
+### 3.2 About Us
 
-| Type | Experience | Fee | Includes (from brief) |
-|---|---|---|---|
-| Package | Ultimate Adventure Day | R1 500 | Guided hiking trail, ziplining, kayaking, lunch, safety briefing and equipment |
-| Package | Family Explorer Package | R1 500 | Nature walk, obstacle course, picnic area, family games, guided wildlife spotting |
-| Package | Mountain Adventure Package | R1 500 | Mountain hiking, scenic viewpoints, rock scrambling, safety equipment, professional guide |
-| Package | Corporate Team Challenge | R1 500 | Team obstacle course, orienteering challenge, raft-building activity, leadership exercises, team awards |
-| Activity | Ziplining Adventure | R750 | Safety briefing, equipment hire, professional instructors |
-| Activity | Kayaking Experience | R750 | Kayak and paddle, safety equipment, guided route |
-| Activity | Rock Climbing Session | R750 | Climbing equipment, safety instruction, professional guide |
+The About Us page presents the company's background and its three core values:
 
-Item details are stored in the `ITEM_DETAILS` object in `js/script.js`, and prices for the calculator are stored in the `CALC_DATA` array in the same file.
+* **Teamwork** — supporting local guides, operators, and small businesses.
+* **Fitness** — providing real, guided outdoor experiences for visitors of every skill level.
+* **Love of Nature** — operating responsibly in the natural spaces the company relies on.
 
-### 2.2 Discount and VAT rules
+### 3.3 Overview
 
-| Number of bookings | Discount |
-|---|---|
-| 1 | None |
-| 2 | 5% |
-| 3 | 10% |
-| More than 3 | 15% |
+The Overview page allows visitors to switch between Packages and Activities. Both categories are presented using a card-based layout to make the available experiences easier to browse.
 
-Design decision: each unit of an item in the quotation counts as one booking. The − / + controls on the Calculate page change the quantity of an item, so adding a second unit of the same item also counts towards the discount tier.
+### 3.4 Individual
 
-VAT of 15% is applied to the amount **after** the discount. The order is: subtotal → discount → VAT → total.
+The Individual page displays detailed information about a selected package or activity, including its description, pricing, and inclusions.
 
-Example: Ultimate Adventure Day (R1 500) plus Kayaking Experience (R750) = 2 bookings. Subtotal R2 250, 5% discount R112.50, amount after discount R2 137.50, VAT R320.63, total about R2 458 (shown to the nearest rand). This is a quotation only, not a formal invoice.
+### 3.5 Calculate Fee
 
-This logic is in `updateSummary()` in `js/script.js`, using the `DISCOUNT_TIERS` array and the `VAT_RATE` constant.
+The Calculate Fee page provides an interactive quotation tool for group bookings. Visitors can adjust quantities and view the calculated discount and total update dynamically using JavaScript.
 
----
+### 3.6 Contact Us
 
-## 3. Design
+The Contact Us page provides a form for visitor enquiries. Client-side form validation helps identify invalid or incomplete entries in the browser before submission (Mozilla Developer Network, n.d.-b).
 
-### 3.1 User-centred design
+The contact form requires a suitable submission service or backend integration if enquiries are to be delivered directly to the company.
 
-The site follows a user-centred design (UCD) approach. The needs, tasks and context of the intended users, mainly families and tourists, drive design decisions throughout development (ISO, 2019; Norman, 2013). In practice this meant:
+## 4. Design and User Interface
 
-- **Clear navigation:** the same five items (Home, Packages, Activities, About, Contact) appear on every page, with a visible "Book Now" button. Research suggests that navigation with only a few top-level choices performs best when it is visible rather than hidden (Pernice and Budiu, 2016). On small screens the menu collapses behind a toggle button.
-- **Clear homepage:** the Home page states what the business offers and links straight to the packages (Wang, 2024).
-- **Responsive layout:** pages adapt to phone, tablet and desktop screen sizes (Nielsen Norman Group, 2020).
-- **Immediate feedback:** the quotation total, discount and VAT update as soon as a quantity changes (Norman, 2013).
-- **Error prevention:** the contact form checks for an empty name, an invalid email address and an empty message before it accepts the form (Nielsen, 1994).
+### 4.1 Colour Palette
 
-### 3.2 Colour palette
+The website uses a visual identity called **Bushveld Blaze**, inspired by outdoor adventure and the natural environment.
 
-| Colour | Hex | Use on the site |
-|---|---|---|
-| Adventure Green | `#24B358` | Primary colour: header, footer, key surfaces |
-| Sunset Orange | `#E8743B` | Secondary colour: buttons and calls to action |
-| Coral | `#FF7F6B` | Accent colour: sparing highlights |
-| Charcoal | `#333333` | Main body text |
-| White | `#FFFFFF` | Backgrounds |
+| Colour       | Hex Code  | Purpose                  |
+| ------------ | --------- | ------------------------ |
+| Forest green | `#19472A` | Primary brand colour     |
+| Amber        | `#D6810B` | Calls to action          |
+| Coral        | `#FF7F6B` | Secondary accent         |
+| White        | `#FFFFFF` | Backgrounds and surfaces |
+| Charcoal     | `#333333` | Body text and contrast   |
 
-All colours are defined as CSS custom properties in the `:root` block at the top of `css/style.css` (MDN Web Docs, n.d.-a), so the whole site can be re-themed from one place.
+Forest green establishes the primary brand identity, while amber highlights important actions. Coral provides a secondary accent, and white and charcoal support readability and visual contrast.
 
-### 3.3 Logo
+### 4.2 Images and Layout
 
-The logo shows a diamond with a mountain range, forest and a rising sun, above the words ADVENTURE ESCAPE SA. The site currently shows a "LOGO" placeholder in the header until the logo file is added.
+The website currently uses grey placeholder boxes to represent photography. These placeholders allow the page layouts to be developed before the final images are selected.
 
----
+When actual images are added, the CSS `object-fit` property can be used to control how images fit within their containers, helping maintain the intended layout and image proportions (Mozilla Developer Network, n.d.-a).
 
-## 4. Technical infrastructure
+### 4.3 Consistent Navigation and Styling
 
-| Item | Detail |
-|---|---|
-| Editor | Visual Studio Code with the Live Server extension |
-| Markup | HTML5 |
-| Styling | CSS3 with custom properties and a responsive layout (no framework) |
-| Scripting | Vanilla JavaScript in `js/script.js` (no libraries, no build step) |
-| Design tool | Figma (low-fidelity wireframes) |
-| Version control | [e.g. GitHub repository link] |
-| Collaboration | WhatsApp, Microsoft Teams, Microsoft SharePoint |
+A shared stylesheet and JavaScript file support consistent styling and functionality across the six pages.
 
-### 4.1 Architecture
+Shared functionality includes navigation, tab behaviour, fee calculations, and client-side form validation.
 
-The site is a static multi-page website. Every page loads the same stylesheet (`css/style.css`) and the same script (`js/script.js`). Each part of the script only runs if the elements it needs exist on the current page:
+## 5. Technologies and Tools
 
-```
-js/script.js
- ├── initNavToggle()        every page      mobile menu toggle
- ├── initTabs()             overview.html   Packages / Activities tabs
- ├── initIndividualPage()   individual.html reads ?item= and fills in the details
- ├── initCalculator()       calculate.html  quantities, discount, VAT, suggestions
- └── initContactForm()      contact.html    form validation
-```
+| Technology or Tool | Purpose                                                                                      |
+| ------------------ | -------------------------------------------------------------------------------------------- |
+| HTML               | Structures the website content.                                                              |
+| CSS                | Controls the layout, styling, colours, and presentation.                                     |
+| JavaScript         | Implements interactive features, fee calculations, tab behaviour, and form validation.       |
+| Visual Studio Code | Used to develop and edit the website.                                                        |
+| Live Server        | Used to preview the website locally during development.                                      |
+| GitHub             | Used to store and manage the project repository, track changes, and support version control. |
 
-Other technical choices:
+The website does not require a separate framework installation or build process.
 
-- **One page for all experiences:** `individual.html` reads the `?item=` value from the address bar with `URLSearchParams` (MDN Web Docs, n.d.-b) and looks it up in `ITEM_DETAILS`, so one file serves all seven packages and activities.
-- **"Add to Booking" flow:** the button links to `calculate.html?item=…`, and the calculator automatically adds that item with a quantity of 1.
-- **"You May Also Like":** shown on the individual page (three other items) and the Calculate page (items not yet in the quotation, each with an Add button).
-- **Booking state:** the quotation is held in memory in the `CALC_DATA` array and is reset when the page is reloaded.
+## 6. Running the Website
 
----
+The website can be previewed locally using Visual Studio Code and the Live Server extension.
 
-## 5. Project structure
+1. Open the website project folder in Visual Studio Code.
+2. Ensure the HTML, CSS, and JavaScript files are available in the project.
+3. Open the website's entry HTML file.
+4. Right-click the file and select **Open with Live Server**.
+5. View the website in the browser.
 
-```
-website_project/
-├── index.html          Home
-├── about.html          About Us
-├── overview.html       Overview (tabs)
-├── individual.html     Individual page (dynamic)
-├── calculate.html      Calculate Fee
-├── contact.html        Contact Us
-├── README.md
-├── css/
-│   └── style.css       All styling and the colour variables
-└── js/
-    └── script.js       All behaviour (see section 4.1)
-```
+The exact entry HTML filename depends on the project's file structure.
 
-### 5.1 Where to change content
+## 7. Current Limitations and Future Improvements
 
-| What | Where | How |
-|---|---|---|
-| Brand colours | `css/style.css` | Edit the variables in the `:root` block |
-| Item descriptions and "Includes" lists | `js/script.js` | Edit the `ITEM_DETAILS` object |
-| Prices | `js/script.js` and the cards in `index.html` / `overview.html` | Update `ITEM_DETAILS`, `CALC_DATA` and the price text on each card |
-| Discount tiers and VAT | `js/script.js` | Edit `DISCOUNT_TIERS` and `VAT_RATE` |
-| Images | Each page | Replace the `.placeholder` boxes with `<img>` tags |
+The following items remain to be addressed as the website develops:
 
----
+* **Package catalogue and pricing:** Finalise the adventure package information and pricing.
+* **Group booking discounts:** Expand and confirm the discount tiers for larger bookings.
+* **Contact form integration:** Connect the form to a service or backend so enquiries can be delivered directly to the company.
+* **Photography:** Replace the grey placeholder boxes with suitable adventure and tourism photographs.
+* **Testing:** Continue testing the pages, navigation, fee calculations, and form validation to identify and correct issues.
 
-## 6. How to run the site
+These improvements will help bring the website closer to its intended functionality and presentation.
 
-1. Open the project folder in Visual Studio Code with **File → Open Folder**.
-2. Install the **Live Server** extension if it is not already installed.
-3. Right-click `index.html` and choose **Open with Live Server**.
-4. The site opens in the browser and refreshes each time a file is saved.
+## 8. Team Members
 
-The site can also be opened by double-clicking `index.html`. No installation or build step is needed.
+1. Kabelo Litheko — ST10517750
+2. Bongiwe Motion — ST10520889
+3. Thando Shongwe — ST10539919
+4. Thandazile Xaba — ST10515020
 
----
+## 9. References
 
-## 7. Testing
+Dey, R. (n.d.) *Live Server*. Visual Studio Code Marketplace. Available at: https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer (Accessed: 7 October 2026).
 
-### 7.1 Manual test checklist
+Mozilla Developer Network (n.d.-a) *object-fit*. MDN Web Docs. Available at: https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit (Accessed: 7 October 2026).
 
-| # | Test | Expected result | Pass? |
-|---|---|---|---|
-| 1 | Click each item in the navigation bar | The correct page opens | |
-| 2 | Resize the browser to phone width | The menu collapses behind the toggle button | |
-| 3 | Overview: switch between the two tabs | The list shows 4 packages or 3 activities | |
-| 4 | Click a card on Home or Overview | The individual page shows that item's name, price and includes list | |
-| 5 | Click Add to Booking on an item page | Calculate opens with that item already in the quotation | |
-| 6 | Add 2 bookings in total | Discount shows 5% | |
-| 7 | Add a 3rd booking, then a 4th | Discount shows 10%, then 15% | |
-| 8 | Check the totals | VAT is 15% of the amount after discount | |
-| 9 | Press − at quantity 1, or press Remove | The item is removed from the quotation | |
-| 10 | Click Add on a "You May Also Like" card (Calculate) | The item is added and leaves the suggestions | |
-| 11 | Submit the contact form empty or with a bad email | Error messages appear under the fields | |
-| 12 | Submit the contact form correctly | A confirmation message appears and the fields clear | |
-
----
-
-## 8. Known limitations and future work
-
-- The quotation is stored in memory only and is cleared when the page is reloaded.
-- The contact form does not send a real email or store the request. It shows a confirmation only.
-- The Calculate page does not yet include fields for the customer's name, phone number and email address.
-- The About Us page does not yet include separate History, Vision, Mission and Goals sections.
-- The Contact page does not yet include social media links, physical venue addresses or a map for directions, and the phone number and email address are fictional.
-- The site does not yet include a drop-down menu or a table, which the project brief lists as additional requirements.
-- Images and the logo are placeholders until final files are supplied (see section 5.1).
-
----
-
-## 9. Change log
-
-No entries yet.
-
----
-
-## 10. Declaration of AI use
-
-
-
----
-
-## 11. References
+Mozilla Developer Network (n.d.-b) *Client-side form validation*. MDN Web Docs. Available at: https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation (Accessed: 7 October 2026).
