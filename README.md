@@ -1,9 +1,9 @@
 # Adventure Escape SA – Website
 
 Student project: website component
-Module: [module name and code] · Institution: [institution] · Lecturer: [lecturer name]
-Group members: [Name Surname – student number], [Name Surname – student number], [Name Surname – student number]
-Submission date: [date]
+Module: [Work Intergrated Learning 1 and XHAW] · Institution: [Rosebank College] · Lecturer: []
+Group members: [Bongiwe Motona – ST10520889], [Thandazile Xaba – ST], [Kabelo – ST], [Thando - ST]
+Submission date: [9 October 2026]
 
 ---
 
@@ -211,26 +211,8 @@ No entries yet.
 
 ## 10. Declaration of AI use
 
-Generative AI (Claude, Anthropic, 2026) was used during development to help update the package names and colour variables to match the client brief, build the dynamic individual page, add the discount and VAT calculation, add the "You May Also Like" sections, and draft this README. All AI output was reviewed, tested and adjusted by the group, which takes full responsibility for the submitted work.
+
 
 ---
 
 ## 11. References
-
-Anthropic. (2026) Claude [Large language model]. Available at: https://claude.ai (Accessed: 9 October 2026).
-
-ISO. (2019) ISO 9241-210:2019 Ergonomics of human-system interaction – Part 210: Human-centred design for interactive systems. Geneva: International Organization for Standardization.
-
-MDN Web Docs. (n.d.-a) Using CSS custom properties (variables). Available at: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties (Accessed: 9 October 2026).
-
-MDN Web Docs. (n.d.-b) URLSearchParams. Available at: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams (Accessed: 9 October 2026).
-
-Nielsen, J. (1994) 10 usability heuristics for user interface design. Nielsen Norman Group. Available at: https://www.nngroup.com/articles/ten-usability-heuristics/ (Accessed: 9 October 2026).
-
-Nielsen Norman Group. (2020) Responsive web design (RWD) and user experience. Available at: https://www.nngroup.com/articles/responsive-web-design-definition/ (Accessed: 9 October 2026).
-
-Norman, D. (2013) The Design of Everyday Things. Revised and expanded edn. New York: Basic Books.
-
-Pernice, K. and Budiu, R. (2016) How to make navigation (even a hamburger) discoverable on mobile. Nielsen Norman Group. Available at: https://www.nngroup.com/articles/find-navigation-mobile-even-hamburger/ (Accessed: 9 October 2026).
-
-Wang, H. (2024) Homepage design: 5 fundamental principles. Nielsen Norman Group. Available at: https://www.nngroup.com/articles/homepage-design-principles/ (Accessed: 9 October 2026).
