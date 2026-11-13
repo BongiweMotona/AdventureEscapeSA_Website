@@ -120,7 +120,7 @@ These improvements will help bring the website closer to its intended functional
 ## 8. Team Members
 
 1. Kabelo Litheko — ST10517750
-2. Bongiwe Motion — ST10520889
+2. Bongiwe Motona — ST10520889
 3. Thando Shongwe — ST10539919
 4. Thandazile Xaba — ST10515020
 
