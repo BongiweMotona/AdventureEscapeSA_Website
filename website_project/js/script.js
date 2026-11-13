@@ -58,42 +58,49 @@ function initTabs() {
 const ITEM_DETAILS = {
   "ultimate-adventure-day": {
     name: "Ultimate Adventure Day",
+    image: "images/kayaking team.jpeg",
     price: 1500,
     description: "A full-day outdoor adventure featuring multiple exciting activities, guided every step of the way.",
     includes: ["Guided hiking trail", "Ziplining", "Kayaking", "Lunch", "Safety briefing and equipment"],
   },
   "family-explorer": {
     name: "Family Explorer Package",
+    image: "images/family image.jpeg",
     price: 1500,
     description: "A fun-filled outdoor experience designed for families, combining nature, games, and wildlife spotting.",
     includes: ["Nature walk", "Obstacle course", "Picnic area", "Family games", "Guided wildlife spotting"],
   },
   "mountain-adventure": {
     name: "Mountain Adventure Package",
+    image: "images/hiking.jpeg",
     price: 1500,
     description: "A guided mountain adventure for outdoor enthusiasts, taking in scenic viewpoints along the way.",
     includes: ["Mountain hiking", "Scenic viewpoints", "Rock scrambling", "Safety equipment", "Professional guide"],
   },
   "corporate-team-challenge": {
     name: "Corporate Team Challenge",
+    image: "images/corporate.jpeg",
     price: 1500,
     description: "Team-building activities designed for businesses and organisations looking to build stronger teams.",
     includes: ["Team obstacle course", "Orienteering challenge", "Raft-building activity", "Leadership exercises", "Team awards"],
   },
   "ziplining": {
     name: "Ziplining Adventure",
+    image: "images/zipling.jpeg",
     price: 750,
     description: "Experience breathtaking views while ziplining through the forest canopy.",
     includes: ["Safety briefing", "Equipment hire", "Professional instructors"],
   },
   "kayaking": {
     name: "Kayaking Experience",
+    image: "images/individual kayaking.jpeg",
     price: 750,
     description: "Paddle through scenic rivers and lakes on a guided kayaking route.",
     includes: ["Kayak and paddle", "Safety equipment", "Guided route"],
   },
   "rock-climbing": {
     name: "Rock Climbing Session",
+    image: "images/rock climbing 2.jpeg",
     price: 750,
     description: "Learn climbing techniques on natural rock faces under professional guidance.",
     includes: ["Climbing equipment", "Safety instruction", "Professional guide"],
@@ -130,6 +137,12 @@ function initIndividualPage() {
   const bookingLink = document.getElementById("bookingLink");
   if (bookingLink) bookingLink.href = `calculate.html?item=${itemId}`;
 
+  const itemImage = document.getElementById("itemImage");
+  if (itemImage) {
+    itemImage.src = item.image;
+    itemImage.alt = item.name;
+  }
+
   renderAlsoLike(itemId);
 }
 
@@ -148,7 +161,7 @@ function renderAlsoLike(currentItemId) {
       const item = ITEM_DETAILS[id];
       return `
     <a href="individual.html?item=${id}" class="card" style="text-decoration: none; color: inherit;">
-      <div class="placeholder placeholder--wide">IMAGE</div>
+      <div class="placeholder placeholder--wide"><img src="${item.image}" alt="${item.name}"></div>
       <div class="card-body">
         <h3 class="card-title">${item.name}</h3>
       </div>
@@ -165,13 +178,13 @@ function renderAlsoLike(currentItemId) {
 // Demo data — swap for real package/activity data (or load it
 // from an API/JSON file) once the group has a backend for this.
 const CALC_DATA = [
-  { id: "ultimate-adventure-day", name: "Ultimate Adventure Day", price: 1500, qty: 0 },
-  { id: "family-explorer", name: "Family Explorer Package", price: 1500, qty: 0 },
-  { id: "mountain-adventure", name: "Mountain Adventure Package", price: 1500, qty: 0 },
-  { id: "corporate-team-challenge", name: "Corporate Team Challenge", price: 1500, qty: 0 },
-  { id: "ziplining", name: "Ziplining Adventure", price: 750, qty: 0 },
-  { id: "kayaking", name: "Kayaking Experience", price: 750, qty: 0 },
-  { id: "rock-climbing", name: "Rock Climbing Session", price: 750, qty: 0 },
+  { id: "ultimate-adventure-day", name: "Ultimate Adventure Day", image: "images/kayaking team.jpeg", price: 1500, qty: 0 },
+  { id: "family-explorer", name: "Family Explorer Package", image: "images/family image.jpeg", price: 1500, qty: 0 },
+  { id: "mountain-adventure", name: "Mountain Adventure Package", image: "images/hiking.jpeg", price: 1500, qty: 0 },
+  { id: "corporate-team-challenge", name: "Corporate Team Challenge", image: "images/corporate.jpeg", price: 1500, qty: 0 },
+  { id: "ziplining", name: "Ziplining Adventure", image: "images/zipling.jpeg", price: 750, qty: 0 },
+  { id: "kayaking", name: "Kayaking Experience", image: "images/individual kayaking.jpeg", price: 750, qty: 0 },
+  { id: "rock-climbing", name: "Rock Climbing Session", image: "images/rock climbing 2.jpeg", price: 750, qty: 0 },
 ];
 
 // Discount tiers — matches the scenario brief:
@@ -250,7 +263,7 @@ function renderCalcAlsoLike() {
         .map(
           (item) => `
         <div class="card">
-          <div class="placeholder placeholder--wide">IMAGE</div>
+          <div class="placeholder placeholder--wide"><img src="${item.image}" alt="${item.name}"></div>
           <div class="card-body">
             <h3 class="card-title">${item.name}</h3>
             <div class="footer-small" style="color: var(--color-gray-500); margin-bottom: 8px;">R${item.price}</div>
@@ -273,7 +286,7 @@ function renderCalcItems() {
       (item) => `
     <div class="calc-item" data-id="${item.id}">
       <div class="calc-item-info">
-        <div class="placeholder placeholder--square">IMG</div>
+        <div class="placeholder placeholder--square"><img src="${item.image}" alt="${item.name}"></div>
         <div>
           <div class="card-title">${item.name}</div>
           <div class="footer-small" style="color: var(--color-gray-500);">R${item.price} each</div>
