@@ -152,7 +152,7 @@ The following items remain to be addressed as the website develops:
 **Navigation, design and fixes**
 
 * The **Book Now** button now opens the Calculate Fee page and uses white text for readability.
-* The **Activities** menu link now opens the Individual Activities tab, and Calculate Fees was added to the footer links.
+* The **Packages** and **Activities** menu links now each open their own tab on the Overview page, including when the visitor is already on that page. Calculate Fees was added to the footer links.
 * Replaced the "ICON" placeholders on the About Us page with icons.
 * Improved the logo's alternative text, defined the missing focus-outline colour, and corrected spelling errors.
 

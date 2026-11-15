@@ -39,23 +39,36 @@ function initTabs() {
   const tabButtons = document.querySelectorAll(".tab-btn");
   if (tabButtons.length === 0) return;
 
+  // Shows one tab (packages or activities) and highlights the matching menu link.
+  function showTab(targetId) {
+    if (!document.getElementById(targetId)) return;
+
+    tabButtons.forEach((b) => b.classList.toggle("active", b.getAttribute("data-tab") === targetId));
+    document.querySelectorAll(".tab-panel").forEach((p) => p.classList.toggle("active", p.id === targetId));
+    document
+      .querySelectorAll('#navLinks a[href^="overview.html#"]')
+      .forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `overview.html#${targetId}`));
+  }
+
   tabButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-tab");
-
-      document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
-      document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
-
-      btn.classList.add("active");
-      document.getElementById(targetId).classList.add("active");
+      showTab(targetId);
+      history.replaceState(null, "", `#${targetId}`); // keep the address in step with the tab
     });
   });
 
-  // The "Activities" link in the menu points to overview.html#activities,
-  // so open that tab straight away when the page loads.
-  const hashTab = window.location.hash.replace("#", "");
-  const hashButton = document.querySelector(`.tab-btn[data-tab="${hashTab}"]`);
-  if (hashButton) hashButton.click();
+  // The menu links point to overview.html#packages and overview.html#activities.
+  // Open the right tab when the page loads, and again when one of those links is
+  // clicked while the visitor is already on this page.
+  function showTabFromHash() {
+    showTab(window.location.hash.replace("#", "") || "packages");
+    const links = document.getElementById("navLinks");
+    if (links) links.classList.remove("open"); // close the phone menu after choosing
+  }
+
+  window.addEventListener("hashchange", showTabFromHash);
+  showTabFromHash();
 }
 
 /* ---------------------------------------------------------
