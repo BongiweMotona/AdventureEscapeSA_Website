@@ -107,15 +107,18 @@ The exact entry HTML filename depends on the project's file structure.
 
 ## 7. Current Limitations and Future Improvements
 
+The following items from the earlier version of this list were completed in Task 3 (see Section 9, Changelog):
+
+* **Package catalogue and pricing:** all four packages and three activities are listed with their final prices.
+* **Group booking discounts:** the discount tiers are confirmed (5%, 10% and 15% for more than three bookings) and shown in a table on the Calculate Fee page.
+* **Photography:** the grey placeholder boxes have been replaced with adventure photographs.
+
 The following items remain to be addressed as the website develops:
 
-* **Package catalogue and pricing:** Finalise the adventure package information and pricing.
-* **Group booking discounts:** Expand and confirm the discount tiers for larger bookings.
-* **Contact form integration:** Connect the form to a service or backend so enquiries can be delivered directly to the company.
-* **Photography:** Replace the grey placeholder boxes with suitable adventure and tourism photographs.
-* **Testing:** Continue testing the pages, navigation, fee calculations, and form validation to identify and correct issues.
-
-These improvements will help bring the website closer to its intended functionality and presentation.
+* **Contact form integration:** connect the form to a service or backend so enquiries are delivered directly to the company. The form currently validates the input but does not send it anywhere.
+* **Saving a quotation:** items added on the Calculate Fee page are cleared when the visitor leaves the page. Storing them in the browser would let a quotation be kept while the visitor moves between pages.
+* **Contact details and map:** replace the placeholder phone number with the company's number, and replace the static map image with an interactive map.
+* **Testing:** continue testing the pages, navigation, fee calculations and form validation on more browsers and devices.
 
 ## 8. Team Members
 
@@ -124,7 +127,36 @@ These improvements will help bring the website closer to its intended functional
 3. Thando Shongwe — ST10539919
 4. Thandazile Xaba — ST10515020
 
-## 9. References
+## 9. Changelog
+
+### Task 3 (November 2026)
+
+**Publishing and images**
+
+* Moved the website into the `docs` folder so it can be published with GitHub Pages.
+* Replaced the remaining image placeholders with activity photographs, linked to each package and activity.
+
+**Calculate Fee page**
+
+* Added a **Group discounts table**, built from the `DISCOUNT_TIERS` array, that highlights the tier the customer currently qualifies for.
+* Added an **itemised quotation table** (item, number of people and amount) to the Quotation Summary.
+* Each different package or activity now counts as one booking, matching the mobile application. The number of people multiplies the price but does not count as extra bookings.
+* Amounts are shown to the cent (for example R4 096.88), with the discount and VAT rounded to the cent.
+* Added validation that limits each booking to 20 people and shows an error message if more are added.
+
+**Contact Us page**
+
+* Added a **drop-down menu** for the package or activity of interest. Its options are built from the `CALC_DATA` array and grouped into packages and activities.
+* The drop-down is validated like the other fields and is pre-selected when the visitor arrives from the Calculate Fee page.
+
+**Navigation, design and fixes**
+
+* The **Book Now** button now opens the Calculate Fee page and uses white text for readability.
+* The **Activities** menu link now opens the Individual Activities tab, and Calculate Fees was added to the footer links.
+* Replaced the "ICON" placeholders on the About Us page with icons.
+* Improved the logo's alternative text, defined the missing focus-outline colour, and corrected spelling errors.
+
+## 10. References
 
 Dey, R. (n.d.) *Live Server*. Visual Studio Code Marketplace. Available at: https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer (Accessed: 7 October 2026).
 

@@ -33,6 +33,7 @@
   --color-gray-100: #eceae3;
   --color-gray-300: #cfcdc4;
   --color-gray-500: #8b897f;
+  --color-gold: #D6810B; /* focus outline colour (was referenced but never defined) */
 
   --font-base: "Segoe UI", Arial, Helvetica, sans-serif;
 
@@ -576,6 +577,7 @@ label {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   padding: 10px 12px;
@@ -586,6 +588,7 @@ textarea {
 }
 
 input:focus,
+select:focus,
 textarea:focus {
   outline: 2px solid var(--color-gold);
   outline-offset: 1px;
@@ -713,4 +716,125 @@ img.placeholder {
     height: 350px;
     object-fit: cover;
     border-radius: 12px;
+}
+
+/* =========================================================
+   Task 3 additions
+   ========================================================= */
+
+/* "Book Now" button in the menu: white text on green, no underline */
+.nav-links a.btn,
+.nav-links a.btn:hover {
+  color: var(--color-white);
+  border-bottom: none;
+  padding: 8px 16px;
+}
+
+.nav-links a.btn:hover {
+  background: var(--color-accent);
+}
+
+/* Drop-down menu: matches the text inputs */
+select {
+  background: var(--color-white);
+  color: var(--color-charcoal);
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-green-dark) 50%),
+    linear-gradient(135deg, var(--color-green-dark) 50%, transparent 50%);
+  background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* Tables */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.data-table caption {
+  caption-side: bottom;
+  text-align: left;
+  font-size: 0.78rem;
+  color: var(--color-gray-500);
+  padding-top: 8px;
+}
+
+.data-table th {
+  background: var(--color-green-dark);
+  color: var(--color-white);
+  text-align: left;
+  font-weight: 600;
+  padding: 10px 12px;
+}
+
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background: var(--color-light);
+}
+
+.data-table tr.current td {
+  background: #FBEBD6;
+  font-weight: 700;
+  color: var(--color-green-dark);
+}
+
+.data-table .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-table td.empty {
+  color: var(--color-gray-500);
+  text-align: center;
+}
+
+/* Itemised quotation inside the summary card */
+.invoice-table {
+  margin: 8px 0 12px;
+  font-size: 0.82rem;
+}
+
+.invoice-table th,
+.invoice-table td {
+  padding: 8px;
+}
+
+/* People counter on the Calculate page */
+.qty-label {
+  font-size: 0.72rem;
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.qty-error {
+  max-width: 220px;
+}
+
+/* About page mission icons */
+.pillar-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px auto;
+  border-radius: 50%;
+  background: #E3EEE7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pillar-icon svg {
+  width: 30px;
+  height: 30px;
+  color: var(--color-green-dark); /* the icons draw their lines in currentColor */
 }

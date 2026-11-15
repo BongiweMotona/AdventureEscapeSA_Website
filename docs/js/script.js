@@ -7,6 +7,7 @@
      3. Individual item page     (individual.html)
      4. Calculate Fee logic      (calculate.html)
      5. Contact form validation  (contact.html)
+     6. Shared helpers           (money formatting)
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -49,6 +50,12 @@ function initTabs() {
       document.getElementById(targetId).classList.add("active");
     });
   });
+
+  // The "Activities" link in the menu points to overview.html#activities,
+  // so open that tab straight away when the page loads.
+  const hashTab = window.location.hash.replace("#", "");
+  const hashButton = document.querySelector(`.tab-btn[data-tab="${hashTab}"]`);
+  if (hashButton) hashButton.click();
 }
 
 /* ---------------------------------------------------------
@@ -178,26 +185,33 @@ function renderAlsoLike(currentItemId) {
 // Demo data — swap for real package/activity data (or load it
 // from an API/JSON file) once the group has a backend for this.
 const CALC_DATA = [
-  { id: "ultimate-adventure-day", name: "Ultimate Adventure Day", image: "images/kayaking team.jpeg", price: 1500, qty: 0 },
-  { id: "family-explorer", name: "Family Explorer Package", image: "images/family image.jpeg", price: 1500, qty: 0 },
-  { id: "mountain-adventure", name: "Mountain Adventure Package", image: "images/hiking.jpeg", price: 1500, qty: 0 },
-  { id: "corporate-team-challenge", name: "Corporate Team Challenge", image: "images/corporate.jpeg", price: 1500, qty: 0 },
-  { id: "ziplining", name: "Ziplining Adventure", image: "images/zipling.jpeg", price: 750, qty: 0 },
-  { id: "kayaking", name: "Kayaking Experience", image: "images/individual kayaking.jpeg", price: 750, qty: 0 },
-  { id: "rock-climbing", name: "Rock Climbing Session", image: "images/rock climbing 2.jpeg", price: 750, qty: 0 },
+  { id: "ultimate-adventure-day", type: "Package", name: "Ultimate Adventure Day", image: "images/kayaking team.jpeg", price: 1500, qty: 0 },
+  { id: "family-explorer", type: "Package", name: "Family Explorer Package", image: "images/family image.jpeg", price: 1500, qty: 0 },
+  { id: "mountain-adventure", type: "Package", name: "Mountain Adventure Package", image: "images/hiking.jpeg", price: 1500, qty: 0 },
+  { id: "corporate-team-challenge", type: "Package", name: "Corporate Team Challenge", image: "images/corporate.jpeg", price: 1500, qty: 0 },
+  { id: "ziplining", type: "Activity", name: "Ziplining Adventure", image: "images/zipling.jpeg", price: 750, qty: 0 },
+  { id: "kayaking", type: "Activity", name: "Kayaking Experience", image: "images/individual kayaking.jpeg", price: 750, qty: 0 },
+  { id: "rock-climbing", type: "Activity", name: "Rock Climbing Session", image: "images/rock climbing 2.jpeg", price: 750, qty: 0 },
 ];
 
 // Discount tiers — matches the scenario brief:
 // 1 booking = no discount, 2 = 5% off, 3 = 10% off, more than 3 (4+) = 15% off.
+// A booking is each different package or activity in the quotation (the same
+// rule as the mobile app). The number of people multiplies the price but does
+// not count as extra bookings.
 const DISCOUNT_TIERS = [
   { minBookings: 2, rate: 0.05 },
   { minBookings: 3, rate: 0.10 },
   { minBookings: 4, rate: 0.15 },
 ];
 
+const MAX_PEOPLE = 20; // largest group size accepted per booking
+
 function initCalculator() {
   const list = document.getElementById("calcItems");
   if (!list) return; // not on the calculate page
+
+  renderDiscountTable(0);
 
   // If arriving from an "Add to Booking" link (e.g. calculate.html?item=ziplining),
   // automatically add that item with a quantity of 1.
@@ -220,6 +234,12 @@ function initCalculator() {
     if (!item) return;
 
     if (e.target.matches(".qty-increase")) {
+      // Validation: stop the group size going above the maximum.
+      if (item.qty >= MAX_PEOPLE) {
+        const note = itemEl.querySelector(".qty-error");
+        if (note) note.textContent = `Maximum ${MAX_PEOPLE} people per booking. Please contact us for larger groups.`;
+        return;
+      }
       item.qty += 1;
     } else if (e.target.matches(".qty-decrease")) {
       item.qty = Math.max(0, item.qty - 1);
@@ -266,7 +286,7 @@ function renderCalcAlsoLike() {
           <div class="placeholder placeholder--wide"><img src="${item.image}" alt="${item.name}"></div>
           <div class="card-body">
             <h3 class="card-title">${item.name}</h3>
-            <div class="footer-small" style="color: var(--color-gray-500); margin-bottom: 8px;">R${item.price}</div>
+            <div class="footer-small" style="color: var(--color-gray-500); margin-bottom: 8px;">${formatRand(item.price)}</div>
             <button type="button" class="btn btn-outline btn-block also-like-add" data-id="${item.id}">Add</button>
           </div>
         </div>
@@ -289,16 +309,18 @@ function renderCalcItems() {
         <div class="placeholder placeholder--square"><img src="${item.image}" alt="${item.name}"></div>
         <div>
           <div class="card-title">${item.name}</div>
-          <div class="footer-small" style="color: var(--color-gray-500);">R${item.price} each</div>
+          <div class="footer-small" style="color: var(--color-gray-500);">${item.type} · ${formatRand(item.price)} per person</div>
         </div>
       </div>
       <div>
+        <div class="qty-label">People</div>
         <div class="qty-control">
-          <button type="button" class="qty-decrease" aria-label="Decrease quantity">&minus;</button>
+          <button type="button" class="qty-decrease" aria-label="Fewer people">&minus;</button>
           <span>${item.qty}</span>
-          <button type="button" class="qty-increase" aria-label="Increase quantity">+</button>
+          <button type="button" class="qty-increase" aria-label="More people">+</button>
         </div>
         <button type="button" class="remove-item">Remove</button>
+        <div class="field-error qty-error" role="alert"></div>
       </div>
     </div>
   `
@@ -316,26 +338,49 @@ function renderCalcItems() {
 const VAT_RATE = 0.15; // 15% VAT, applied after the discount
 
 function updateSummary(visibleItems) {
-  const totalBookings = visibleItems.reduce((sum, i) => sum + i.qty, 0);
+  const totalBookings = visibleItems.length; // each different package/activity
+  const totalPeople = visibleItems.reduce((sum, i) => sum + i.qty, 0);
   const subtotal = visibleItems.reduce((sum, i) => sum + i.qty * i.price, 0);
 
-  // Find the best discount tier the customer currently qualifies for.
-  const earnedTier = [...DISCOUNT_TIERS]
-    .sort((a, b) => b.minBookings - a.minBookings)
-    .find((tier) => totalBookings >= tier.minBookings);
-  const rate = earnedTier ? earnedTier.rate : 0;
+  const rate = discountRateFor(totalBookings);
+  // Amounts are rounded to the cent at each step, as on a printed invoice.
+  const discount = roundToCents(subtotal * rate);
+  const afterDiscount = roundToCents(subtotal - discount);
+  const vat = roundToCents(afterDiscount * VAT_RATE);
+  const total = roundToCents(afterDiscount + vat);
 
-  const discount = subtotal * rate;
-  const afterDiscount = subtotal - discount;
-  const vat = afterDiscount * VAT_RATE;
-  const total = afterDiscount + vat;
+  // Itemised quotation lines
+  const invoiceBody = document.querySelector("#invoiceTable tbody");
+  if (invoiceBody) {
+    invoiceBody.innerHTML = visibleItems.length
+      ? visibleItems
+          .map(
+            (i) => `
+        <tr>
+          <td>${i.name}</td>
+          <td>${i.qty} × ${formatRand(i.price)}</td>
+          <td class="num">${formatRand(i.qty * i.price)}</td>
+        </tr>`
+          )
+          .join("")
+      : `<tr><td colspan="3" class="empty">No bookings yet</td></tr>`;
+  }
 
-  document.getElementById("summaryCount").textContent = totalBookings;
-  document.getElementById("summarySubtotal").textContent = `R${subtotal.toFixed(0)}`;
+  document.getElementById("summaryCount").textContent =
+    `${totalBookings} booking${totalBookings === 1 ? "" : "s"}, ${totalPeople} ${totalPeople === 1 ? "person" : "people"}`;
+  document.getElementById("summarySubtotal").textContent = formatRand(subtotal);
   document.getElementById("summaryDiscountPct").textContent = `${Math.round(rate * 100)}%`;
-  document.getElementById("summaryDiscount").textContent = `− R${discount.toFixed(0)}`;
-  document.getElementById("summaryVat").textContent = `R${vat.toFixed(0)}`;
-  document.getElementById("summaryTotal").textContent = `R${total.toFixed(0)}`;
+  document.getElementById("summaryDiscount").textContent = `− ${formatRand(discount)}`;
+  document.getElementById("summaryVat").textContent = formatRand(vat);
+  document.getElementById("summaryTotal").textContent = formatRand(total);
+
+  renderDiscountTable(totalBookings);
+
+  // Pass the first booking to the contact form so its drop-down is pre-selected.
+  const proceedLink = document.getElementById("proceedLink");
+  if (proceedLink) {
+    proceedLink.href = visibleItems.length ? `contact.html?item=${visibleItems[0].id}` : "contact.html";
+  }
 
   // Progress bar towards the next tier (or "unlocked" once at the top tier).
   const nextTier = [...DISCOUNT_TIERS]
@@ -348,11 +393,48 @@ function updateSummary(visibleItems) {
   if (nextTier) {
     const pct = Math.min(100, (totalBookings / nextTier.minBookings) * 100);
     progressFill.style.width = `${pct}%`;
-    progressLabel.textContent = `${totalBookings} booking(s) — ${nextTier.minBookings - totalBookings} more for ${Math.round(nextTier.rate * 100)}% off`;
+    progressLabel.textContent = `${totalBookings} booking(s) — add ${nextTier.minBookings - totalBookings} more for ${Math.round(nextTier.rate * 100)}% off`;
   } else {
     progressFill.style.width = "100%";
-    progressLabel.textContent = `${totalBookings} booking(s) — top discount tier unlocked`;
+    progressLabel.textContent = `${totalBookings} bookings — top discount tier (15%) unlocked`;
   }
+}
+
+// Returns the discount rate for a number of bookings, using DISCOUNT_TIERS.
+function discountRateFor(totalBookings) {
+  const earnedTier = [...DISCOUNT_TIERS]
+    .sort((a, b) => b.minBookings - a.minBookings)
+    .find((tier) => totalBookings >= tier.minBookings);
+  return earnedTier ? earnedTier.rate : 0;
+}
+
+// Builds the discount table from DISCOUNT_TIERS and highlights the row
+// for the number of bookings currently in the quotation.
+function renderDiscountTable(totalBookings) {
+  const body = document.querySelector("#discountTable tbody");
+  if (!body) return;
+
+  const tiers = [...DISCOUNT_TIERS].sort((a, b) => a.minBookings - b.minBookings);
+  const highest = tiers[tiers.length - 1].minBookings;
+  const rows = [{ label: "1", from: 1, rate: 0 }].concat(
+    tiers.map((t) => ({
+      label: t.minBookings === highest ? `${t.minBookings} or more` : `${t.minBookings}`,
+      from: t.minBookings,
+      rate: t.rate,
+    }))
+  );
+
+  body.innerHTML = rows
+    .map((r, idx) => {
+      const next = rows[idx + 1];
+      const isCurrent = totalBookings >= r.from && (!next || totalBookings < next.from);
+      return `
+      <tr class="${isCurrent ? "current" : ""}">
+        <td>${r.label}</td>
+        <td>${r.rate === 0 ? "No discount" : `${Math.round(r.rate * 100)}% off`}</td>
+      </tr>`;
+    })
+    .join("");
 }
 
 /* ---------------------------------------------------------
@@ -361,6 +443,26 @@ function updateSummary(visibleItems) {
 function initContactForm() {
   const form = document.getElementById("contactForm");
   if (!form) return;
+
+  // Drop-down: build the options from the CALC_DATA array, grouped by type.
+  const interest = document.getElementById("interest");
+  if (interest) {
+    ["Package", "Activity"].forEach((type) => {
+      const group = document.createElement("optgroup");
+      group.label = type === "Package" ? "Adventure packages" : "Individual activities";
+      CALC_DATA.filter((i) => i.type === type).forEach((i) => {
+        const option = document.createElement("option");
+        option.value = i.id;
+        option.textContent = `${i.name} (${formatRand(i.price)} per person)`;
+        group.appendChild(option);
+      });
+      interest.appendChild(group);
+    });
+
+    // Pre-select the item passed from the Calculate page (contact.html?item=...).
+    const preset = new URLSearchParams(window.location.search).get("item");
+    if (preset && CALC_DATA.some((i) => i.id === preset)) interest.value = preset;
+  }
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -380,6 +482,11 @@ function initContactForm() {
         (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
         "Please enter a valid email address."
       ) && isValid;
+
+    if (interest) {
+      isValid =
+        validateField(interest, "interestError", (v) => v !== "", "Please choose a package or activity.") && isValid;
+    }
 
     isValid = validateField(message, "messageError", (v) => v.trim().length > 0, "Please enter a message.") && isValid;
 
@@ -406,4 +513,19 @@ function validateField(field, errorId, testFn, message) {
   }
   errorEl.textContent = message;
   return false;
+}
+
+/* ---------------------------------------------------------
+   6. Shared helpers
+   --------------------------------------------------------- */
+
+function roundToCents(amount) {
+  return Math.round(amount * 100) / 100;
+}
+
+// Formats an amount in rand with a space between thousands and
+// two decimal places, e.g. 4096.875 -> "R4 096.88".
+function formatRand(amount) {
+  const [whole, cents] = (Math.round(amount * 100) / 100).toFixed(2).split(".");
+  return `R${whole.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}.${cents}`;
 }
