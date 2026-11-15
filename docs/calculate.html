@@ -11,7 +11,7 @@
   <header class="site-header">
     <div class="container nav">
       <a href="index.html" class="nav-logo">
-         <div class="placeholder placeholder--circle"><img src="images/logo.jpg"alt="nav-logo"> 
+         <div class="placeholder placeholder--circle"><img src="images/logo.jpg" alt="Adventure Escape SA logo"> 
          </div>
     Adventure Escape SA
       </a>
@@ -25,10 +25,10 @@
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="overview.html">Packages</a></li>
-        <li><a href="overview.html">Activities</a></li>
+        <li><a href="overview.html#activities">Activities</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="overview.html" class="btn btn-primary">Book Now</a></li>
+        <li><a href="calculate.html" class="btn btn-primary">Book Now</a></li>
       </ul>
     </div>
   </header>
@@ -38,7 +38,7 @@
       <div class="eyebrow">Calculate Fee</div>
       <h1>Review your booking</h1>
       <p style="color: var(--color-gray-500); margin-bottom: 28px;">
-        Adjust quantities below — the discount and total update automatically.
+        Each package or activity you add counts as one booking. Use the &minus; and + buttons to set the number of people for each booking; the discount, VAT and total update automatically.
       </p>
 
       <div class="calc-layout">
@@ -57,6 +57,20 @@
             </div>
           </div>
 
+          <!-- Discount tiers: rows are built by js/script.js from the
+               DISCOUNT_TABLE array, and the tier you qualify for is highlighted. -->
+          <h2 style="margin-top: 32px;">Group discounts</h2>
+          <table class="data-table" id="discountTable">
+            <caption>Discount applied to the subtotal, based on the number of bookings</caption>
+            <thead>
+              <tr>
+                <th scope="col">Number of bookings</th>
+                <th scope="col">Discount</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+
           <h2 style="margin-top: 32px;">You May Also Like</h2>
           <div id="calcAlsoLike"></div>
         </div>
@@ -66,8 +80,20 @@
           <div class="summary-card">
             <h3>Quotation Summary</h3>
 
+            <!-- Itemised quotation (invoice lines), built by js/script.js -->
+            <table class="data-table invoice-table" id="invoiceTable">
+              <thead>
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col">People</th>
+                  <th scope="col" class="num">Amount</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+
             <div class="summary-row">
-              <span>Subtotal (<span id="summaryCount">0</span> bookings)</span>
+              <span>Subtotal (<span id="summaryCount">0 bookings</span>)</span>
               <span id="summarySubtotal">R0</span>
             </div>
             <div class="summary-row">
@@ -83,7 +109,7 @@
               <span id="summaryTotal">R0</span>
             </div>
 
-            <a href="contact.html" class="btn btn-primary btn-block" style="margin-top: 16px;">Proceed to Booking</a>
+            <a href="contact.html" class="btn btn-primary btn-block" style="margin-top: 16px;" id="proceedLink">Proceed to Booking</a>
           </div>
         </div>
       </div>
@@ -99,6 +125,7 @@
       <ul class="footer-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="overview.html">Packages</a></li>
+        <li><a href="calculate.html">Calculate Fees</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
